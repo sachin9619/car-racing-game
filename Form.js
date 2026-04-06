@@ -27,17 +27,17 @@ class Form {
       this.input.hide();
       this.button.hide();
 
-      // LOCAL (no database)
       player.name = this.input.value();
       playerCount += 1;
       player.index = playerCount;
+
+      gameState = 1;   // 🔥 THIS LINE FIXES YOUR GAME
 
       this.greeting.html("Hello " + player.name);
       this.greeting.position(displayWidth/2 - 70, displayHeight/4);
     });
 
     this.reset.mousePressed(()=>{
-      // Reset locally
       playerCount = 0;
       gameState = 0;
       window.location.reload();
