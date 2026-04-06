@@ -1,48 +1,18 @@
 class Player {
   constructor(){
-    this.index = null;
+    this.index = 1;        // single player
     this.distance = 0;
-    this.name = null;
-    this.rank = null;
+    this.name = "";
+    this.rank = 0;
   }
 
-  getCount(){
-    var playerCountRef = database.ref('playerCount');
-    playerCountRef.on("value",(data)=>{
-      playerCount = data.val();
-    });
+  // Set player name
+  setName(name){
+    this.name = name;
   }
 
-  updateCount(count){
-    database.ref('/').update({
-      playerCount: count
-    });
-  }
-
-  update(){
-    var playerIndex = "players/player" + this.index;
-    database.ref(playerIndex).set({
-      name: this.name,
-      distance: this.distance
-    });
-  }
-
-  static getPlayerInfo(){
-    var playerInfoRef = database.ref('players');
-    playerInfoRef.on("value",(data)=>{
-      allPlayers = data.val();
-    });
-  }
-
-  static getCarInfo(){
-    database.ref("carAtEnd").on("value",(data)=>{
-      player.rank = data.val();
-    });
-  }
-
-  updatecar(rank){
-    database.ref("/").update({
-      carAtEnd: rank
-    });
+  // Increase distance
+  move(){
+    this.distance += 10;
   }
 }
