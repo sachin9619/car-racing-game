@@ -41,40 +41,41 @@ class Game {
   }
 
   play(){
-    form.hide();
+  form.hide();
 
-    background(0);
+  background(0);
 
-    // 🔥 INFINITE ROAD EFFECT
-    image(track, 0, -height*3 + player.distance, width, height*4);
+  // 🔥 REAL INFINITE ROAD (looping)
+  let y = player.distance % height;
+  image(track, 0, y - height, width, height);
+  image(track, 0, y, width, height);
 
-    // Player car (fixed center)
-    let x = width / 2;
-    let y = height - 150;
+  // 🚗 Movement forward
+  if(keyIsDown(UP_ARROW)){
+    player.distance += 10;
+  }
 
-    cars[0].x = x;
-    cars[0].y = y;
+  // 🚗 Left-right movement
+  if(keyIsDown(LEFT_ARROW)){
+    cars[0].x -= 5;
+  }
+  if(keyIsDown(RIGHT_ARROW)){
+    cars[0].x += 5;
+  }
 
-    // Highlight player
-    stroke(255);
-    fill("red");
-    ellipse(x, y, 60, 60);
+  // 🚧 Keep car inside road
+  cars[0].x = constrain(cars[0].x, width/2 - 250, width/2 + 250);
 
-    // Camera follows player
-    camera.position.x = width / 2;
-    camera.position.y = cars[0].y;
+  // Keep car fixed vertically
+  cars[0].y = height - 150;
 
-    // Movement
-    if(keyIsDown(UP_ARROW)){
-      player.distance += 10;
-    }
+  // Highlight player
+  stroke(255);
+  fill("red");
+  ellipse(cars[0].x, cars[0].y, 60, 60);
 
-    // Game Over
-    if(player.distance >= 3000){
-      gameState = 2;
-      console.log("Game Over");
-    }
-
+  drawSprites();
+}
     drawSprites();
   }
 }
