@@ -23,7 +23,9 @@ function setup(){
   game = new Game();
   game.start();
 }
-
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
+}
 function draw(){
 
   if(gameState === 1){
