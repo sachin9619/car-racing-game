@@ -4,61 +4,64 @@ class Game {
   }
 
   getState(){
-    // LOCAL game state (no database)
     return gameState;
   }
 
   update(state){
-    // LOCAL update
     gameState = state;
   }
 
   start(){
     if(gameState === 0){
       player = new Player();
-
-      // Local player count
       playerCount = 1;
 
       form = new Form();
       form.display();
     }
 
-    car1 = createSprite(100,200);
+    // Create cars
+    car1 = createSprite(width/2, height - 150);
     car1.addImage(car1_img);
+    car1.scale = 0.07;
 
-    car2 = createSprite(300,200);
+    car2 = createSprite(width/2 - 200, height - 150);
     car2.addImage(car2_img);
+    car2.scale = 0.07;
 
-    car3 = createSprite(500,200);
+    car3 = createSprite(width/2 + 200, height - 150);
     car3.addImage(car3_img);
+    car3.scale = 0.07;
 
-    car4 = createSprite(700,200);
+    car4 = createSprite(width/2 + 400, height - 150);
     car4.addImage(car4_img);
+    car4.scale = 0.07;
 
     cars = [car1, car2, car3, car4];
   }
 
   play(){
-    console.log("PLAY RUNNING");
     form.hide();
 
-    background("red");
-    image(track, 0, -displayHeight, displayWidth, displayHeight * 2);
+    background(0);
 
-    // Only ONE player (offline)
-    var x = 170;
-    var y = displayHeight - player.distance;
+    // 🔥 INFINITE ROAD EFFECT
+    image(track, 0, -height*3 + player.distance, width, height*4);
+
+    // Player car (fixed center)
+    let x = width / 2;
+    let y = height - 150;
 
     cars[0].x = x;
     cars[0].y = y;
 
     // Highlight player
-    stroke(9);
+    stroke(255);
     fill("red");
-    ellipse(x, y, 70, 70);
+    ellipse(x, y, 60, 60);
 
-    camera.position.x = displayWidth/2;
+    // Camera follows player
+    camera.position.x = width / 2;
     camera.position.y = cars[0].y;
 
     // Movement
@@ -66,8 +69,8 @@ class Game {
       player.distance += 10;
     }
 
-    // Game end
-    if(player.distance >= 1000){
+    // Game Over
+    if(player.distance >= 3000){
       gameState = 2;
       console.log("Game Over");
     }
