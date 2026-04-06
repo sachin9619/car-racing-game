@@ -39,7 +39,7 @@ class Game {
     car4 = createSprite(700,200);
     car4.addImage(car4_img)
     cars = [car1, car2, car3, car4];
-  }
+  
 
   play(){
     form.hide();
