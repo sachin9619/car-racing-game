@@ -4,97 +4,71 @@ class Game {
   }
 
   getState(){
-    var gameStateRef  = database.ref('gameState');
-    gameStateRef.on("value",function(data){
-       gameState = data.val();
-    })
-
+    // LOCAL game state (no database)
+    return gameState;
   }
 
   update(state){
-    database.ref('/').update({
-      gameState: state
-    });
+    // LOCAL update
+    gameState = state;
   }
 
-  async start(){
+  start(){
     if(gameState === 0){
       player = new Player();
-      var playerCountRef = await database.ref('playerCount').once("value");
-      if(playerCountRef.exists()){
-        playerCount = playerCountRef.val();
-        player.getCount();
-      }
-      form = new Form()
+
+      // Local player count
+      playerCount = 1;
+
+      form = new Form();
       form.display();
     }
 
     car1 = createSprite(100,200);
-    
     car1.addImage(car1_img);
+
     car2 = createSprite(300,200);
-    car2.addImage(car2_img)
+    car2.addImage(car2_img);
+
     car3 = createSprite(500,200);
-    car3.addImage(car3_img)
+    car3.addImage(car3_img);
+
     car4 = createSprite(700,200);
-    car4.addImage(car4_img)
+    car4.addImage(car4_img);
+
     cars = [car1, car2, car3, car4];
-  
+  }
 
   play(){
     form.hide();
 
-    Player.getPlayerInfo();
-    Player.getCarInfo();
-    
-    if(allPlayers !== undefined){
-      background("red")
-      image(track,0,-displayHeight,displayWidth,displayHeight*2)
-      //var display_position = 100;
-      
-      //index of the array
-      var index = 0;
+    background("red");
+    image(track, 0, -displayHeight, displayWidth, displayHeight * 2);
 
-      //x and y position of the cars
-      var x = 170;
-      var y;
+    // Only ONE player (offline)
+    var x = 170;
+    var y = displayHeight - player.distance;
 
-      for(var plr in allPlayers){
-        //add 1 to the index for every loop
-        index = index + 1 ;
+    cars[0].x = x;
+    cars[0].y = y;
 
-        //position the cars a little away from each other in x direction
-        x = x + 200;
-        //use data form the database to display the cars in y direction
-        y = displayHeight - allPlayers[plr].distance;
-        cars[index-1].x = x;
-        cars[index-1].y = y;
+    // Highlight player
+    stroke(9);
+    fill("red");
+    ellipse(x, y, 70, 70);
 
-        if (index === player.index){
-          stroke (9)
-fill ("red")
-ellipse (x,y,70,70)
-          cars[index - 1].shapeColor = "red";
-          camera.position.x = displayWidth/2;
-          camera.position.y = cars[index-1].y
-        }
-       
-        //textSize(15);
-        //text(allPlayers[plr].name + ": " + allPlayers[plr].distance, 120,display_position)
-      }
+    camera.position.x = displayWidth/2;
+    camera.position.y = cars[0].y;
 
+    // Movement
+    if(keyIsDown(UP_ARROW)){
+      player.distance += 10;
     }
 
-    if(keyIsDown(UP_ARROW) && player.index !== null){
-      player.distance +=10
-      player.update();
-    }
-
-    if(player.distance>=100){
-      gameState=2;
-player.rank+=1
-player.updatecar(player.rank)
-      
+    // Game end
+    if(player.distance >= 1000){
+      gameState = 2;
+      console.log("Game Over");
     }
 
     drawSprites();
