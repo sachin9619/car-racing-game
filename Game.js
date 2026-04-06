@@ -40,6 +40,7 @@ class Game {
   }
 
   play(){
+    console.log("PLAY RUNNING");
     form.hide();
 
     background("red");
