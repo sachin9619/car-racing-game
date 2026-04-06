@@ -23,19 +23,19 @@ class Game {
     // Create cars
     car1 = createSprite(width/2, height - 150);
     car1.addImage(car1_img);
-    car1.scale = 0.07;
+    car1.scale = 0.3;
 
     car2 = createSprite(width/2 - 200, height - 150);
     car2.addImage(car2_img);
-    car2.scale = 0.07;
+    car2.scale = 0.3;
 
     car3 = createSprite(width/2 + 200, height - 150);
     car3.addImage(car3_img);
-    car3.scale = 0.07;
+    car3.scale = 0.3;
 
     car4 = createSprite(width/2 + 400, height - 150);
     car4.addImage(car4_img);
-    car4.scale = 0.07;
+    car4.scale = 0.3;
 
     cars = [car1, car2, car3, car4];
   }
