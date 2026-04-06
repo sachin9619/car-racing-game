@@ -23,17 +23,24 @@ function setup(){
   game = new Game();
   game.start();
 }
+
 function windowResized(){
   resizeCanvas(windowWidth, windowHeight);
 }
+
 function draw(){
 
+  console.log("STATE:", gameState);  // 🔍 debug
+
   if(gameState === 1){
-    clear();
     game.play();
   }
 
   if(gameState === 2){
-    console.log("Game Over");
+    background(0);
+    fill("white");
+    textSize(40);
+    textAlign(CENTER);
+    text("GAME OVER", width/2, height/2);
   }
 }
